@@ -13,22 +13,31 @@ class Queue:
         self.queue[self.rear] = elemento
         self.cantidad += 1
 
-        if self.rear == self.size:
+        if self.rear == self.size - 1:
             self.rear = 0
 
         else:
             self.rear += 1
 
     def dequeue(self):
-
         elemento2 = self.queue[self.front]
         self.queue[self.front] = None
+        self.cantidad = self.cantidad - 1
 
-        if self.front == self.size:
+        if self.front == self.size-1:
             self.front = 0
         else:
             self.front += 1
         return elemento2
+    
+    def first(self):
+        return self.queue[self.front]
+    
+    def is_empty(self):
+        if self.cantidad == self.size:
+            return True
+        else:
+            False
 
     def __repr__(self) -> str:
         return str(self.queue)
@@ -54,6 +63,11 @@ print(queue)
 
 queue.dequeue()
 print(queue)
+queue.enqueue(17)
+print(queue)
+queue.enqueue(7)
+print(queue)
+
 queue.dequeue()
 print(queue)
 queue.dequeue()
@@ -71,4 +85,7 @@ queue.enqueue(100)
 print(queue)
 queue.enqueue(10)
 #queue.enqueue(10)
-#print(queue)
+print(queue)
+
+print(queue.first())
+print(queue.is_empty())
