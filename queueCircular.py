@@ -32,12 +32,15 @@ class Queue:
     
     def first(self):
         return self.queue[self.front]
+
+    def is_empty():
+        pass
     
-    def is_empty(self):
-        if self.cantidad == self.size:
-            return True
-        else:
-            False
+    def is_full(self):
+        pass
+
+    def size():
+        pass
 
     def __repr__(self) -> str:
         return str(self.queue)
@@ -88,4 +91,4 @@ queue.enqueue(10)
 print(queue)
 
 print(queue.first())
-print(queue.is_empty())
+print(queue.is_full())
