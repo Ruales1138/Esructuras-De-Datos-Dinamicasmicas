@@ -11,6 +11,9 @@ class Queue:
     def fist(self):
         return self.queue[0]
     
+def invertir_cola(cola):
+    pass
+    
     
 q = Queue()
 print(q.queue)
