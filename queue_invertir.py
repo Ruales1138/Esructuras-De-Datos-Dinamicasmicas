@@ -11,19 +11,38 @@ class Queue:
     def fist(self):
         return self.queue[0]
     
-def invertir_cola(cola):
-    pass
+    def __repr__(self):
+        return self.queue
     
     
 q = Queue()
-print(q.queue)
 q.enqueue(3)
-print(q.queue)
 q.enqueue(4)
-print(q.queue)
 q.enqueue(5)
+q.enqueue(34)
+q.enqueue(8)
+q.enqueue(10)
 print(q.queue)
-q.dequeue()
-print(q.queue)
-q.dequeue()
-print(q.queue)
+
+    
+def invertir_cola(cola):
+    cola_aux = Queue()
+    
+    for _ in range((len(cola.queue))):
+        elemento = cola.dequeue()
+        print(elemento)
+        print(cola.queue)
+        cola_aux.enqueue(elemento)
+        
+    for _ in range(len(cola_aux.queue)):
+        cola.enqueue(cola_aux.dequeue())
+        
+    return cola.queue
+
+
+print(invertir_cola(q))
+
+for i in range(10, -1, -1):
+    print(i)
+    
+    
