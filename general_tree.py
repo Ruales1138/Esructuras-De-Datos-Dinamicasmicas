@@ -27,12 +27,11 @@ class GeneralTree:
         else:
             if(current_node.value == parent):
                 current_node.children.append(Node(child))
-                return True #avisé que agregué
+                return True
             else:
                 for ch in current_node.children:
-                    if(self.insert(parent, child, ch)): #True, None
+                    if(self.insert(parent, child, ch) == True):
                       return True
-                return False
 
     def traverse(self, current_node = None):
       if(current_node is None):
@@ -41,20 +40,52 @@ class GeneralTree:
       print(current_node.value)
       for ch in current_node.children:
         self.traverse(ch)
-
-    def delete(self, value, current_node = None):
-      if(current_node is None):
+        
+    def buscar(self, num, current_node = None):
+      if current_node is None:
         current_node = self.root
-      #preguntas para el current?
-      for ch in current_node.children:
-        #preguntas para los hijos?
-        if(ch.value == value):
-          current_node.children += ch.children
-          current_node.children.remove(ch)
+      if self.root is None:
+        return 'No hay nodos'
+      else:
+        if current_node.value == num:
           return True
-        if(self.delete(value, ch) == True): #saltando
+        else:
+          for ch in current_node.children:
+            if self.buscar(num, ch) == True:
+              return True
+
+    def eliminar_con_hijos(self, num, current_node = None):
+      if current_node is None:
+        current_node = self.root
+      if self.root is None:
+        return 'No hay nodos'
+      else:
+        if current_node.value == num:
           return True
-      return False
+        else:
+          for i in range(len(current_node.children)):
+            if current_node.children[i].value == num:
+              current_node.children.pop(i)
+              return True
+            if self.eliminar_con_hijos(num, current_node.children[i]) == True:
+              return True
+            
+    def eliminar_sin_hijos(self, num, current_node = None):
+      if current_node is None:
+        current_node = self.root
+      if self.root is None:
+        return 'No hay nodos'
+      else:
+        if current_node.value == num:
+          return True
+        else:
+          for i in range(len(current_node.children)):
+            if current_node.children[i].value == num:
+              current_node.children += current_node.children[i].children
+              current_node.children.pop(i)
+              return True
+            if self.eliminar_sin_hijos(num, current_node.children[i]) == True:
+              return True
 
     def __repr__(self):
         return self.root._repr() if self.root else "<árbol vacío>"
@@ -68,6 +99,17 @@ gt.insert(1, 10)
 gt.insert(2, 11)
 gt.insert(10, 12)
 gt.insert(5, 10)
+gt.insert(10, 66)
+gt.insert(10, 54)
+gt.insert(2, 54)
+gt.insert(12, 54)
+gt.insert(54, 540)
+gt.insert(540, 541)
+gt.insert(10, 666)
 print(gt)
-gt.delete(10)
+
+print(gt.buscar(666))
+print(gt.buscar(10))
+
+print(gt.eliminar_sin_hijos(12))
 print(gt)
