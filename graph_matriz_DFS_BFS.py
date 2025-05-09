@@ -1,4 +1,8 @@
 # DFS (Depth-First Search)
+# Visitar todos los nodos de un grafo siguiendo un camino lo más profundo posible, antes de retroceder.
+
+# BFS (Breadth-First Search)
+# Visitar todos los nodos de un grafo nivel por nivel, comenzando desde un nodo origen.
 
 class Graph:
     def __init__(self):
@@ -29,6 +33,30 @@ class Graph:
             self.adj_matrix[pos_v2][pos_v1] = relation_weight
         self.adj_matrix[pos_v1][pos_v2] = relation_weight
         
+    def DFZ(self, current, visited = []):
+        if current not in self.nodes:
+            return
+        if visited == []:
+            visited.append(current)
+        current_pos = self.nodes.index(current)
+        neighbors = self.adj_matrix[current_pos]
+        for idx, n in enumerate(neighbors):
+            if n == self.relation_value:
+                if self.nodes[idx] in visited:
+                    continue
+                visited.append(self.nodes[idx])
+                self.DFZ(self.nodes[idx], visited)
+        return visited
+    
+    def BFZ(self, current):
+        if current not in self.nodes:
+            return
+        visited = []
+        non_visited = [current]
+        while non_visited != []:
+            non_visited = []
+        return visited
+        
     def __repr__(self):
         repr_matrix = ""
         for row in self.adj_matrix:
@@ -37,10 +65,20 @@ class Graph:
         return repr_matrix
         
         
-        
 g = Graph()
-g.add_edge(1,3)
-g.add_edge(2,10, directed = False)
-g.add_edge(3,1, directed = False)
-g.add_edge(4,6)
+g.add_edge("H", "A")
+g.add_edge("H", "O")
+g.add_edge("O", "X")
+g.add_edge("O", "A")
+g.add_edge("O", "L")
+g.add_edge("O", "O")
+g.add_edge("L", "A")
+g.add_edge("L", "Z")
+g.add_edge("L", "O")
+g.add_edge("X", "Y")
+g.add_edge("Y", "U")
+g.add_edge("Y", "S")
 print(g)
+print('-------')
+print(g.DFZ('O'))
+print(g.BFZ('O'))
