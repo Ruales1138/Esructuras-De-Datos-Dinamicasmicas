@@ -48,7 +48,7 @@ class Graph:
                 self.DFZ(self.nodes[idx], visited)
         return visited
     
-    def BFZ(self, current):
+    def BFZ(self, current): # No funciona
         if current not in self.nodes:
             return
         visited = []
