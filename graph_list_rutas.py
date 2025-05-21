@@ -17,16 +17,16 @@ class Graph:
         self.adj_list[vertex_value] = []
         self.size += 1
     
-    def add_edge(self, vertex_1, vertex_2, directed = True):
+    def add_edge(self, vertex_1, vertex_2, weight = None, directed = True):
         if vertex_1 not in self.adj_list:
             self.add_vertex(vertex_1)
         if vertex_2 not in self.adj_list:
             self.add_vertex(vertex_2)
         if not directed:
             if vertex_1 not in self.adj_list[vertex_2]:
-                self.adj_list[vertex_2].append(vertex_1)
+                self.adj_list[vertex_2].append((vertex_1, weight))
         if vertex_2 not in self.adj_list[vertex_1]:
-            self.adj_list[vertex_1].append(vertex_2)
+            self.adj_list[vertex_1].append((vertex_2, weight))
             
     def BFS(self, start):
         if start not in self.adj_list:
@@ -101,23 +101,24 @@ class Graph:
                     queue.append(ch)
         return []
     
-    def calculate_routes(self, start, end, current = None, visited = [], paths = []):
+    def calculate_routes(self, start, end, current = None, visited = [], paths = [], count = 0):
         if start not in self.adj_list or end not in self.adj_list:
             return []
         if current is None:
             current = start
         if visited == []:
             visited.append(current)
-        neighbors = self.adj_list[current]
         if current == end:
             copY = visited.copy()
-            paths.append(copY)
+            paths.append((copY, count))
             return paths
-            
+        neighbors = self.adj_list[current]
         for neighbor in neighbors:
-            if neighbor not in visited:
-                visited.append(neighbor)
-                self.calculate_routes(start, end, neighbor, visited) 
+            if neighbor[0] not in visited:
+                visited.append(neighbor[0])
+                count += neighbor[1]
+                self.calculate_routes(start, end, neighbor[0], visited, paths, count) 
+                count -= neighbor[1]
                 visited.pop()
         return paths
         
@@ -127,16 +128,16 @@ class Graph:
     
 g = Graph()
 
-g.add_edge(1,3)
-g.add_edge(2,10)
-g.add_edge(3,1)
-g.add_edge(4,6)
-g.add_edge(1,4)
-g.add_edge(10,1)
-g.add_edge(10,3)
-g.add_edge(3,2)
-g.add_edge(11,9)
-g.add_edge(10, 6)
+g.add_edge(1,3,2)
+g.add_edge(2,10,1)
+g.add_edge(3,1,6)
+g.add_edge(4,6,8)
+g.add_edge(1,4,2)
+g.add_edge(10,1,20)
+g.add_edge(10,3,9)
+g.add_edge(3,2,1)
+g.add_edge(11,9,12)
+g.add_edge(10,6,9)
 print(g)
 # print(g.BFS(1))
 # print(g.DFS(1))
